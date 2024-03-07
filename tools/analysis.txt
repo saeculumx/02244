@@ -1,0 +1,53 @@
+INPUT:
+   D:\\Code\\02244\\tools\\temp.AnB
+SUMMARY:
+  ATTACK_FOUND
+GOAL:
+  secrets
+BACKEND:
+  Open-Source Fixedpoint Model-Checker version 2024
+STATISTICS:
+  TIME 44125 ms
+  parseTime 0 ms
+  visitedNodes: 719 nodes
+  depth: 6 plies
+
+ATTACK TRACE:
+(x307,1) -> i: step1,x307,NC(1),Sid(1),PC(1)
+i -> (x40,1): step1,x307,NC(1),Sid(1),PC(1)
+(x40,1) -> i: step2,NV(2),Sid(1),PV(2),{x40,pk(x40)}_inv(pk(s))
+i -> (x307,1): step2,NV(2),Sid(1),PV(2),{x40,pk(x40)}_inv(pk(s))
+(x307,1) -> i: step3,{x307,pk(x307)}_inv(pk(s)),{PMS(3)}_(pk(x40)),{hash(NV(2),x40,PMS(3))}_inv(pk(x307)),{|hash(prf(PMS(3),NC(1),NV(2)),x307,x40,NC(1),NV(2),Sid(1),PC(1),PV(2),PMS(3))|}_(clientK(NC(1),NV(2),prf(PMS(3),NC(1),NV(2))))
+i -> (x40,1): step3,{x307,pk(x307)}_inv(pk(s)),{PMS(3)}_(pk(x40)),{hash(NV(2),x40,PMS(3))}_inv(pk(x307)),{|hash(prf(PMS(3),NC(1),NV(2)),x307,x40,NC(1),NV(2),Sid(1),PC(1),PV(2),PMS(3))|}_(clientK(NC(1),NV(2),prf(PMS(3),NC(1),NV(2))))
+(x40,1) -> i: step4,{|hash(prf(PMS(3),NC(1),NV(2)),x307,x40,NC(1),NV(2),Sid(1),PC(1),PV(2),PMS(3))|}_(serverK(NC(1),NV(2),prf(PMS(3),NC(1),NV(2))))
+i -> (x40,1): confChCr(i),{{step5,x307,x40,x616}_inv(confChCr(i))}_(confChCr(x40))
+(x40,1) -> i: {{step6,x307,idp,x40,ID(5),x616}_inv(authChCr(x40))}_(confChCr(i))
+i -> (x40,1): confChCr(i),{{step9,ID(5),x40,idp,x718,x616}_inv(confChCr(i))}_(confChCr(x40))
+(x40,1) -> i: {{step10,Data(6),ID(5)}_inv(authChCr(x40))}_(confChCr(i))
+i can produce secret Data(6)
+
+secret leaked: Data(6)
+
+
+% Reached State:
+% 
+% secrets(Data(6),secrecyset(x40,1,pData),i)
+% contains(secrecyset(x40,1,pprfPMSNCNV),x40)
+% contains(secrecyset(x40,1,pprfPMSNCNV),x307)
+% secrets(prf(PMS(3),NC(1),NV(2)),secrecyset(x40,1,pprfPMSNCNV),i)
+% request(x40,x307,pVCprfPMSNCNV,prf(PMS(3),NC(1),NV(2)),1)
+% state_rV(x40,4,step10,step9,step8,step7,step6,step5,step4,step3,step2,step1,prf,serverK,clientK,hash,idp,x46,{x40,pk(x40)}_inv(pk(s)),inv(pk(x40)),pk(s),pk(x40),inv(pseudonym(x40)),inv(confChCr(x40)),inv(authChCr(x40)),pseudonym(x40),PC(1),Sid(1),NC(1),x307,step1,x307,NC(1),Sid(1),PC(1),NV(2),PV(2),step2,NV(2),Sid(1),PV(2),{x40,pk(x40)}_inv(pk(s)),{|hash(prf(PMS(3),NC(1),NV(2)),x307,x40,NC(1),NV(2),Sid(1),PC(1),PV(2),PMS(3))|}_(clientK(NC(1),NV(2),prf(PMS(3),NC(1),NV(2)))),{hash(NV(2),x40,PMS(3))}_inv(pk(x307)),PMS(3),{PMS(3)}_(pk(x40)),pk(x307),{x307,pk(x307)}_inv(pk(s)),step3,{x307,pk(x307)}_inv(pk(s)),{PMS(3)}_(pk(x40)),{hash(NV(2),x40,PMS(3))}_inv(pk(x307)),{|hash(prf(PMS(3),NC(1),NV(2)),x307,x40,NC(1),NV(2),Sid(1),PC(1),PV(2),PMS(3))|}_(clientK(NC(1),NV(2),prf(PMS(3),NC(1),NV(2)))),step4,{|hash(prf(PMS(3),NC(1),NV(2)),x307,x40,NC(1),NV(2),Sid(1),PC(1),PV(2),PMS(3))|}_(serverK(NC(1),NV(2),prf(PMS(3),NC(1),NV(2)))),{|hash(prf(PMS(3),NC(1),NV(2)),x307,x40,NC(1),NV(2),Sid(1),PC(1),PV(2),PMS(3))|}_(serverK(NC(1),NV(2),prf(PMS(3),NC(1),NV(2)))),x616,{step5,x307,x40,x616}_inv(confChCr(i)),{{step5,x307,x40,x616}_inv(confChCr(i))}_(confChCr(x40)),confChCr(i),confChCr(i),{{step5,x307,x40,x616}_inv(confChCr(i))}_(confChCr(x40)),ID(5),{{step6,x307,idp,x40,ID(5),x616}_inv(authChCr(x40))}_(confChCr(i)),x718,{step9,ID(5),x40,idp,x718,x616}_inv(confChCr(i)),{{step9,ID(5),x40,idp,x718,x616}_inv(confChCr(i))}_(confChCr(x40)),confChCr(i),{{step9,ID(5),x40,idp,x718,x616}_inv(confChCr(i))}_(confChCr(x40)),Data(6),{{step10,Data(6),ID(5)}_inv(authChCr(x40))}_(confChCr(i)),1)
+% contains(secrecyset(x40,1,pData),x307)
+% contains(secrecyset(x40,1,pData),x40)
+% state_rC(x51,0,step10,step9,step8,step7,step6,step5,step4,step3,step2,step1,prf,serverK,clientK,hash,pk(idp),idp,x53,x54,{x51,pk(x51)}_inv(pk(s)),inv(pk(x51)),pk(s),pk(x51),inv(pseudonym(x51)),inv(confChCr(x51)),inv(authChCr(x51)),pseudonym(x51),2)
+% state_rD(x57,0,step10,step9,step8,step7,step6,step5,step4,step3,step2,step1,prf,serverK,clientK,hash,x58,{x57,pk(x57)}_inv(pk(s)),inv(pk(x57)),pk(s),pk(x57),inv(pseudonym(x57)),inv(confChCr(x57)),inv(authChCr(x57)),pseudonym(x57),2)
+% state_rP(x59,0,step10,step9,step8,step7,step6,step5,step4,step3,step2,step1,prf,serverK,clientK,hash,x60,{x59,pk(x59)}_inv(pk(s)),inv(pk(x59)),pk(s),pk(x59),inv(pseudonym(x59)),inv(confChCr(x59)),inv(authChCr(x59)),pseudonym(x59),2)
+% state_rV(x55,0,step10,step9,step8,step7,step6,step5,step4,step3,step2,step1,prf,serverK,clientK,hash,idp,x56,{x55,pk(x55)}_inv(pk(s)),inv(pk(x55)),pk(s),pk(x55),inv(pseudonym(x55)),inv(confChCr(x55)),inv(authChCr(x55)),pseudonym(x55),2)
+% state_ridp(idp,0,step10,step9,step8,step7,step6,step5,step4,step3,step2,step1,prf,serverK,clientK,hash,{idp,pk(idp)}_inv(pk(s)),inv(pk(idp)),pk(s),pk(idp),inv(pseudonym(idp)),inv(confChCr(idp)),inv(authChCr(idp)),pseudonym(idp),2)
+% state_rD(x47,0,step10,step9,step8,step7,step6,step5,step4,step3,step2,step1,prf,serverK,clientK,hash,x48,{x47,pk(x47)}_inv(pk(s)),inv(pk(x47)),pk(s),pk(x47),inv(pseudonym(x47)),inv(confChCr(x47)),inv(authChCr(x47)),pseudonym(x47),1)
+% state_rP(x49,0,step10,step9,step8,step7,step6,step5,step4,step3,step2,step1,prf,serverK,clientK,hash,x50,{x49,pk(x49)}_inv(pk(s)),inv(pk(x49)),pk(s),pk(x49),inv(pseudonym(x49)),inv(confChCr(x49)),inv(authChCr(x49)),pseudonym(x49),1)
+% state_ridp(idp,0,step10,step9,step8,step7,step6,step5,step4,step3,step2,step1,prf,serverK,clientK,hash,{idp,pk(idp)}_inv(pk(s)),inv(pk(idp)),pk(s),pk(idp),inv(pseudonym(idp)),inv(confChCr(idp)),inv(authChCr(idp)),pseudonym(idp),1)
+% state_rC(x307,2,step10,step9,step8,step7,step6,step5,step4,step3,step2,step1,prf,serverK,clientK,hash,pk(idp),idp,x39,x40,{x307,pk(x307)}_inv(pk(s)),inv(pk(x307)),pk(s),pk(x307),inv(pseudonym(x307)),inv(confChCr(x307)),inv(authChCr(x307)),pseudonym(x307),NC(1),Sid(1),PC(1),step1,x307,NC(1),Sid(1),PC(1),pk(x40),{x40,pk(x40)}_inv(pk(s)),PV(2),NV(2),step2,NV(2),Sid(1),PV(2),{x40,pk(x40)}_inv(pk(s)),PMS(3),step3,{x307,pk(x307)}_inv(pk(s)),{PMS(3)}_(pk(x40)),{hash(NV(2),x40,PMS(3))}_inv(pk(x307)),{|hash(prf(PMS(3),NC(1),NV(2)),x307,x40,NC(1),NV(2),Sid(1),PC(1),PV(2),PMS(3))|}_(clientK(NC(1),NV(2),prf(PMS(3),NC(1),NV(2)))),1)
+% witness(x307,x40,pVCprfPMSNCNV,prf(PMS(3),NC(1),NV(2)))
+% witness(x40,x307,pCVprfPMSNCNV,prf(PMS(3),NC(1),NV(2)))
+

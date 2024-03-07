@@ -1,0 +1,36 @@
+Protocol: TLS
+
+Types:
+Agent C,V,idp,P,D,s;
+Number NC,NV,ND,Nidp,NP,Sid,PC,PV,PD,Pidp,PP,PMS,ID,DATA,URI;
+Function pk;
+
+Knowledge:
+C: C,idp,V,pk(idp);
+idp: C,idp,pk(idp),inv(pk(idp));
+V: idp,V,pk(idp)
+D: D,pk(D),inv(pk(D)),{D,pk(D)}inv(pk(s)),V;
+P: P,pk(P),inv(pk(P)),{P,pk(P)}inv(pk(s)),V;
+	where V!=C, V!=idp, C!=idp
+Actions:
+# C->V: C,NC,Sid,PC
+# V->C: NV,Sid,PV,{V,pk(V)}inv(pk(s))
+# C->V: {C,pk(C)}inv(pk(s)),{PMS}pk(V),{hash(NV,V,PMS)}inv(pk(C)),{|hash(prf(PMS,NC,NV),C,V,NC,NV,Sid,PC,PV,PMS)|}clientK(NC,NV,prf(PMS,NC,NV))
+# V->C: {|hash(prf(PMS,NC,NV),C,V,NC,NV,Sid,PC,PV,PMS)|}serverK(NC,NV,prf(PMS,NC,NV))
+
+[C] *->* V : C,V,URI
+V *->* [C] : C,idp,V,ID,URI
+C  *->* idp: C,idp,V,ID,URI
+idp *->* C : ID,V,idp,{ID,C,idp,V}inv(pk(idp)),URI
+[C] *->* V : ID,V,idp,{ID,C,idp,V}inv(pk(idp)),URI
+V *->* [C] : Data,ID
+
+Goals:
+# C  authenticates V on prf(PMS,NC,NV)
+# V  authenticates C on prf(PMS,NC,NV)
+# prf(PMS,NC,NV) secret between C,V
+
+C  authenticates V on URI
+V  authenticates C on Data
+Data secret between C,V
+

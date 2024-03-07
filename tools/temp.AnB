@@ -1,0 +1,33 @@
+Protocol: TLS
+
+Types:
+Agent C,V,idp,P,D,s;
+Number NC,NV,ND,Nidp,NP,Sid,PC,PV,PD,Pidp,PP,PMS,ID,Data,URI,T;
+Function pk,hash,clientK,serverK,prf;
+
+Knowledge:
+C: C,pk(C),pk(s),inv(pk(C)),{C,pk(C)}inv(pk(s)),V,P,idp,pk(idp),hash,clientK,serverK,prf,step1,step2,step3,step4,step5,step6,step7,step8,step9,step10;
+V: V,pk(V),pk(s),inv(pk(V)),{V,pk(V)}inv(pk(s)),P,idp,hash,clientK,serverK,prf,step1,step2,step3,step4,step5,step6,step7,step8,step9,step10;
+D: D,pk(D),pk(s),inv(pk(D)),{D,pk(D)}inv(pk(s)),V,hash,clientK,serverK,prf,step1,step2,step3,step4,step5,step6,step7,step8,step9,step10;
+P: P,pk(P),pk(s),inv(pk(P)),{P,pk(P)}inv(pk(s)),V,hash,clientK,serverK,prf,step1,step2,step3,step4,step5,step6,step7,step8,step9,step10;
+idp: idp,pk(idp),pk(s),inv(pk(idp)),{idp,pk(idp)}inv(pk(s)),hash,clientK,serverK,prf,step1,step2,step3,step4,step5,step6,step7,step8,step9,step10;
+where V!=C,V!=idp,C!=idp
+
+Actions:
+C->V: step1,C,NC,Sid,PC
+V->C: step2,NV,Sid,PV,{V,pk(V)}inv(pk(s))
+C->V: step3,{C,pk(C)}inv(pk(s)),{PMS}pk(V),{hash(NV,V,PMS)}inv(pk(C)),{|hash(prf(PMS,NC,NV),C,V,NC,NV,Sid,PC,PV,PMS)|}clientK(NC,NV,prf(PMS,NC,NV))
+V->C: step4,{|hash(prf(PMS,NC,NV),C,V,NC,NV,Sid,PC,PV,PMS)|}serverK(NC,NV,prf(PMS,NC,NV))
+[C]*->*V: step5,C,V,URI
+V*->*[C]: step6,C,idp,V,ID,URI
+C*->*idp: step7,C,idp,V,ID,URI
+idp*->*C: step8,ID,V,idp,{ID,C,idp,V}inv(pk(idp)),URI
+[C]*->*V: step9,ID,V,idp,{ID,C,idp,V}inv(pk(idp)),URI
+V*->*[C]: step10,Data,ID
+
+Goals:
+C  authenticates V on prf(PMS,NC,NV)
+V  authenticates C on prf(PMS,NC,NV)
+prf(PMS,NC,NV) secret between C,V
+Data secret between C,V
+
